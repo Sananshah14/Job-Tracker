@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .signup-container {
+        max-width: 400px;
+        width: 100%;
+        padding: 40px 30px 30px 30px;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(33, 147, 176, 0.18);
+        margin: 40px 0;
+      }
+      .signup-logo {
+        width: 60px;
+        display: block;
+        margin: 0 auto 18px auto;
+      }
+      h2 {
+        color: #2193b0;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      .btn-success {
+        background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+        border: none;
+        font-weight: 600;
+      }
+      .btn-success:hover {
+        background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
+      }
+      .form-control:focus {
+        border-color: #2193b0;
+        box-shadow: 0 0 0 0.2rem rgba(33, 147, 176, 0.15);
+      }
+      .mt-3.text-center a {
+        color: #2193b0;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <img
+        src="https://img.icons8.com/ios-filled/100/2193b0/add-user-group-man-man.png"
+        class="signup-logo"
+        alt="Signup Icon"
+      />
+      <h2>Sign Up</h2>
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit" class="btn btn-success btn-block">Sign Up</button>
+      </form>
+      <div class="mt-3 text-center">
+        <span>Already have an account?</span>
+        <a href="{% url 'login' %}">Login</a>
+      </div>
+      {% if messages %}
+      <div class="mt-3">
+        {% for message in messages %}
+        <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

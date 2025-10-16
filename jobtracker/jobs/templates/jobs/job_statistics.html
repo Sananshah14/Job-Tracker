@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Statistics</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="mb-4">Job Statistics</h2>
+
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Total Jobs</h5>
+              <p class="card-text">{{ total_jobs }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Pending Jobs</h5>
+              <p class="card-text">{{ pending_jobs }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Rejected Jobs</h5>
+              <p class="card-text">{{ rejected_jobs }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Interviews</h5>
+              <p class="card-text">{{ interview_jobs }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <canvas id="barChart"></canvas>
+        </div>
+        <div class="col-md-6">
+          <canvas id="pieChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var jobStatusValues = JSON.parse("{{ jobStatusValues|escapejs }}");
+      var jobStatusLabels = JSON.parse("{{ jobStatusLabels|escapejs }}");
+      var months = JSON.parse("{{ months|escapejs }}");
+      var totalJobsPerMonth = JSON.parse("{{ total_jobs_per_month|escapejs }}");
+      var progressPerMonth = JSON.parse("{{ progress_per_month|escapejs }}");
+
+      var pieCtx = document.getElementById("pieChart").getContext("2d");
+      var pieChart = new Chart(pieCtx, {
+        type: "pie",
+        data: {
+          labels: jobStatusLabels,
+          datasets: [
+            {
+              label: "Job Status Distribution",
+              data: jobStatusValues,
+              backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+            },
+          ],
+        },
+      });
+
+      var barCtx = document.getElementById("barChart").getContext("2d");
+      var barChart = new Chart(barCtx, {
+        type: "bar",
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: "Total Jobs",
+              data: totalJobsPerMonth,
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      });
+    </script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
